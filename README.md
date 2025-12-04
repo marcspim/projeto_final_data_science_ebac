@@ -59,13 +59,17 @@ Segundo o *briefing do stakeholder*, a Tech Lead da Riot Games descreve a necess
 
 > *Um modelo confiável que consiga, logo nos primeiros minutos da partida, inferir qual time possui maior probabilidade de vencer, permitindo análises estratégicas e melhorias nos sistemas competitivos.*  
 
+O dataset disponibilizado contém métricas essenciais sobre os dois times durante o início de jogo, e a variável target é **blueWins** (1 = time azul vence).
+
+Trecho do relatório oficial:
+
+> *"Cada decisão tomada nos primeiros minutos de jogo pode alterar drasticamente o rumo da partida, como conquista de objetivos ou vantagem de ouro."*
+
 O dataset inclui métricas essenciais como:
 - Abates, assistências e mortes
 - Objetivos (torres, dragões, arautos, monstros épicos)
 - Ouro total
 - Eventos iniciais como First Blood
-
-A variável alvo: **blueWins**.
 
 ## Preparação e Engenharia de Atributos
 Realizada pelo módulo **lol_pipeline.py**, incluindo:
@@ -74,6 +78,8 @@ Realizada pelo módulo **lol_pipeline.py**, incluindo:
 - Criação de **first_blood_flag**
 - Remoção de colunas redundantes
 - Padronização e imputação com ColumnTransformer
+
+> *"Foi construído um pipeline determinístico que calcula diferenças, gera indicadores e remove variáveis redundantes."*
 
 ## Análise Exploratória (EDA)
 Arquivos incluídos:
@@ -92,14 +98,23 @@ Três modelos foram treinados:
 
 A regressão logística foi o melhor modelo.
 
+> *"A regressão logística demonstrou o melhor desempenho, com equilíbrio entre interpretabilidade, velocidade e estabilidade estatística.”*
+
 ## Curvas ROC
 ![ROC Curves](./outputs/roc_curves.png)
+
+> As curvas ROC mostram superioridade da regressão logística (AUC ~0.805), seguida por GaussianNB. A decisão por DecisionTree se mostrou inferior por apresentar alta variância e pouca capacidade discriminativa.
 
 ## Interpretação dos Resultados
 Principais insights:
 - Objetivos (torres, dragões, arautos) são altamente preditivos.
 - Ouro é a métrica mais consistente.
 - First Blood tem impacto menor quando analisado isoladamente.
+- O *macro* importa mais do que eventos isolados.
+
+> *“Diferenças em objetivos (torres, dragões, arautos) e vantagem de ouro são os fatores com maior poder discriminativo. First Blood possui impacto isolado menor.”*
+
+Isso reforça observações conhecidas no cenário competitivo de LoL.
 
 ## Uso dos Pipelines de Inferência
 
@@ -118,6 +133,11 @@ python infer_nb.py --data_path data/Base_M43_Pratique_LOL_RANKED_WIN.csv --outpu
 python infer_tree.py --data_path data/Base_M43_Pratique_LOL_RANKED_WIN.csv --output_path resultados_tree.csv
 ```
 
+Os scripts:
+- carregam o modelo (`*.joblib`)
+- aplicam a mesma feature engineering
+- geram `pred` e `proba`
+
 ## Entrega Final
 Inclui:
 - Modelos treinados `.joblib`
@@ -132,6 +152,8 @@ O projeto entregou:
 - Modelo de alta interpretabilidade
 - Métricas fortes (AUC > 0.80)
 - Scripts funcionais para inferência
+- Documentação técnica e relatório profissional
+- Visualizações de apoio (ROC, métricas etc.)
 
 ## Próximos Passos
 - Incluir dados temporais por minuto
