@@ -35,7 +35,7 @@ Esse tipo de solução pode apoiar:
 │   ├── GaussianNB_confusion_matrix.csv
 │   ├── DecisionTree_confusion_matrix.csv
 │   ├── models_summary.csv
-│   ├── roc_curves.png / roc_curves.jpg
+│   ├── roc_curves.png
 │   ├── predictions_logistic.csv
 │   ├── predictions_nb.csv
 │   ├── predictions_tree.csv
