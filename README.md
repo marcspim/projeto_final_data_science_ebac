@@ -93,7 +93,7 @@ Três modelos foram treinados:
 A regressão logística foi o melhor modelo.
 
 ## Curvas ROC
-![ROC Curves](./outputs/roc_curves.jpg)
+![ROC Curves](./outputs/roc_curves.png)
 
 ## Interpretação dos Resultados
 Principais insights:
